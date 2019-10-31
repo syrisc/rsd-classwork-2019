@@ -10,3 +10,8 @@ def test_given_input():
 
 test_given_input() #this runs the function 
 
+def test_class_time():
+    large = times.time_range("2019-10-31 10:00:00", "2019-10-31 13:00:00")
+    short = times.time_range("2019-10-31 10:05:00", "2019-10-31 12:55:00", 3, 60)
+    result = times.overlap_time(large,short)
+    assert result == short
