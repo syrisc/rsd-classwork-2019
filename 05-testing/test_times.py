@@ -18,13 +18,13 @@ def test_class_time():
     assert result == short
 '''
  no overlapping times instead of years 1/1 - 1/2, 1/3 -1/4
- gap time larger then range
- two time ranges are exactly the same aka. overlap of identical times
+ gap time larger then range  >> error
+ two time ranges are exactly the same aka. overlap of identical times >> time
  overlapping across different dates 1/1 - 1/3, 1/2 1/4
- what when 1st < 2nd
- 2nd = Gap 1st
- wrong format input
+ what when 1st < 2nd >> overlap
+ 2nd = Gap of 1st
+ wrong format input >> error
  end date earlier then start date  t1 < t0
  time is negative, BC
- Different time format, such as American time format 
+ Different time format, such as American time format >> error
 '''
