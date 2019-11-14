@@ -18,15 +18,15 @@ def average_of_squares(list_of_numbers, list_of_weights=None):
     AssertionError: weights and numbers must have same length
     """
     if list_of_weights is not None:
-        assert len(list_of_weights) == len(
-            list_of_numbers
-        ), "weights and numbers must have same length"
+        assert len(list_of_weights) == len(list_of_numbers), \
+            "weights and numbers must have same length"
         effective_weights = list_of_weights
     else:
         effective_weights = [1] * len(list_of_numbers)
     squares = [
         weight * number * number
-        for number, weight in zip(list_of_numbers, effective_weights)
+        for number, weight
+        in zip(list_of_numbers, effective_weights)
     ]
     return sum(squares)
 
@@ -49,29 +49,27 @@ def convert_numbers(list_of_strings):
     return [float(number_string) for number_string in all_numbers]
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="computes the weighted average of the squares"
-    )
-    parser.add_argument("numbers", help="numbers.txt")
-    parser.add_argument("weights", help="weights.txt")
+if __name__ == "__main__":
+    
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("numbers")
+    parser.add_argument("--weights", "-w")
     args = parser.parse_args()
+
 
     with open(args.numbers, "r") as numbers_file:
         numbers_strings = numbers_file.readlines()
-    
-    with open(args.weights, "r") as weights_file:
-        weight_strings = weights_file.readlines()
+    # TODO Can we make this optional, so that we don't need a weights file?
+    if args.weights:
+        with open(args.weights, "r") as weights_file:
+            weight_strings = weights_file.readlines()
+        weights = convert_numbers(weight_strings)
+    else:
+        weights = None
 
     numbers = convert_numbers(numbers_strings)
-    weights = convert_numbers(weight_strings)
-
     # TODO Can we add the option of computing the square root of this result?
     result = average_of_squares(numbers, weights)
     # TODO Can we write the result in a file instead of printing it?
-    
     print(result)
-
-
-if __name__ == "__main__":
-    main()
