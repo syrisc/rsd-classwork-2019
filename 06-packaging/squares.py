@@ -1,5 +1,5 @@
 """Computation of weighted average of squares."""
-
+import argparse
 
 def average_of_squares(list_of_numbers, list_of_weights=None):
     """
@@ -18,15 +18,15 @@ def average_of_squares(list_of_numbers, list_of_weights=None):
     AssertionError: weights and numbers must have same length
     """
     if list_of_weights is not None:
-        assert len(list_of_weights) == len(list_of_numbers), \
-            "weights and numbers must have same length"
+        assert len(list_of_weights) == len(
+            list_of_numbers
+        ), "weights and numbers must have same length"
         effective_weights = list_of_weights
     else:
         effective_weights = [1] * len(list_of_numbers)
     squares = [
         weight * number * number
-        for number, weight
-        in zip(list_of_numbers, effective_weights)
+        for number, weight in zip(list_of_numbers, effective_weights)
     ]
     return sum(squares)
 
@@ -49,15 +49,29 @@ def convert_numbers(list_of_strings):
     return [float(number_string) for number_string in all_numbers]
 
 
-if __name__ == "__main__":
-    with open("numbers.txt", "r") as numbers_file:
+def main():
+    parser = argparse.ArgumentParser(
+        description="computes the weighted average of the squares"
+    )
+    parser.add_argument("numbers", help="numbers.txt")
+    parser.add_argument("weights", help="weights.txt")
+    args = parser.parse_args()
+
+    with open(args.numbers, "r") as numbers_file:
         numbers_strings = numbers_file.readlines()
-    # TODO Can we make this optional, so that we don't need a weights file?
-    with open("weights.txt", "r") as weights_file:
+    
+    with open(args.weights, "r") as weights_file:
         weight_strings = weights_file.readlines()
+
     numbers = convert_numbers(numbers_strings)
     weights = convert_numbers(weight_strings)
+
     # TODO Can we add the option of computing the square root of this result?
     result = average_of_squares(numbers, weights)
     # TODO Can we write the result in a file instead of printing it?
+    
     print(result)
+
+
+if __name__ == "__main__":
+    main()
